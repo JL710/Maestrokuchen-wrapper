@@ -3,6 +3,7 @@ import requests
 import bs4
 from flask import render_template
 from concurrent.futures import ThreadPoolExecutor
+import re
 
 
 
@@ -16,6 +17,14 @@ url = "https://nachhilfe.ericmaestrokaesekuchen.de/"
 def get_content(url):
     return requests.get(url).content
 
+
+expression = re.compile("(\d\d\d)")
+def find_three_digit(text: str) -> int|None:
+    search = expression.search(text)
+    if not search:
+        return None
+    else:
+        return search.group(0)
 
 
 @app.route("/")
@@ -40,15 +49,22 @@ def home():
 
     python_dict = {item[0]: item[1].decode("ansi") for item in python_dict.items()}    
     
-    python_dict = {index: item for index, item in enumerate(python_dict.items())}
 
+    # try to group by number
+    python_data = []
+    last_number = None
+    for index, key in enumerate(python_dict.keys()):
+        if last_number == None or last_number != find_three_digit(key):
+            python_data.append([])
+        python_data[-1].append({"title": key, "content": python_dict[key], "index": index})
+        last_number = find_three_digit(key)
 
-
+    
     # data stuff
     data_a_tags = [tag for tag in a_tags if tag["href"].startswith("/daten")]
     data_dict = {tag.text: url + tag["href"] for tag in data_a_tags}
 
-    return render_template("template.html", python_dict=python_dict, data_dict=data_dict)
+    return render_template("template.html", python_data=python_data, data_dict=data_dict)
 
 
 

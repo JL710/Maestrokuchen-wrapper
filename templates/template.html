@@ -17,17 +17,31 @@
     <h1>Python Kurs von Maestro</h1>    
 
     <h2>Python Dokument</h2>
-    {% for index, source in python_dict.items() %}
-    <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#item{{ index }}" aria-expanded="false" aria-controls="item{{ index }}">
-        {{ source[0] }}
-    </button>
-    <br/>
-    <div class="collapse" id="item{{ index }}">
-        <div class="card card-body" style="white-space: pre-line">
-            {{ source[1] }}
-        </div>
+
+
+
+
+    {% for section in python_data %}
+    <div class="accordion" id="python-accordion-{{ loop.index }}">
+        {% set section_num = loop.index %}
+
+        {% for item in section %}
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="python-heading{{ item['index'] }}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#python-collapse{{ item['index'] }}" aria-expanded="false" aria-controls="python-collapse{{ item['index'] }}">
+                {{ item['title'] }}
+              </button>
+            </h2>
+            <div id="python-collapse{{ item['index'] }}" class="accordion-collapse collapse" aria-labelledby="python-heading{{ item['index'] }}" data-bs-parent="#python-accordion-{{ section_num }}">
+              <div class="accordion-body" style="white-space: pre-line">
+                {{ item['content'] }}
+              </div>
+            </div>
+          </div>        
+        {% endfor %}
+        <br/>
+
     </div>
-    <hr>
     {% endfor %}
     
     
