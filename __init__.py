@@ -60,7 +60,7 @@ def home():
 
         python_dict = {key: thread.result() for key, thread in threads.items()}
 
-    python_dict = {item[0]: item[1].decode("cp437") for item in python_dict.items()}    
+    python_dict = {item[0]: item[1].decode("ISO-8859-1") for item in python_dict.items()}    
     
 
     # try to group by number
