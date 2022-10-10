@@ -34,7 +34,9 @@
             </h2>
             <div id="python-collapse{{ item['index'] }}" class="accordion-collapse collapse" aria-labelledby="python-heading{{ item['index'] }}" data-bs-parent="#python-accordion-{{ section_num }}">
               <div class="accordion-body" style="white-space: pre-line">
-                {{ item['content'] }}
+                <xmp>
+{{ item['content'] }}
+                </xmp>
               </div>
             </div>
           </div>        
