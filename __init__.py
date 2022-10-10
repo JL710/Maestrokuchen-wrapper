@@ -41,7 +41,6 @@ def home():
 
     # else
 
-
     content = get_content(url)
 
     soup = bs4.BeautifulSoup(content, 'html.parser')
@@ -81,9 +80,6 @@ def home():
     cache["data"] = render_template("template.html", python_data=python_data, data_dict=data_dict)
 
     return cache["data"]
-
-
-
 
 
 
